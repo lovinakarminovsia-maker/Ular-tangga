@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bimbingan Belajar Membaca Kelas 1 SD</title>
+    <style>
+        /* --- CSS UNTUK TAMPILAN YANG COLORFUL & RAMAH ANAK --- */
+        :root {
+            --primary: #4ade80;
+            --secondary: #3b82f6;
+            --accent: #f97316;
+            --bg-game: #fef08a;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', 'Chalkboard SE', 'Ubuntu', sans-serif;
+            background-color: #f0fdf4;
+            color: #333;
+            margin: 0;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .container {
+            max-width: 600px;
+            width: 100%;
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            padding: 20px;
+            text-align: center;
+            border: 4px solid var(--primary);
+            box-sizing: border-box;
+        }
+
+        h1 {
+            color: #16a34a;
+            font-size: 24px;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+        p.petunjuk {
+            font-size: 16px;
+            color: #4b5563;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        /* Area Gambar & Suku Kata */
+        .game-zone {
+            background-color: var(--bg-game);
+            border-radius: 20px;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 3px dashed #ca8a04;
+        }
+
+        .emoji-display {
+            font-size: 70px;
+            margin-bottom: 5px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .word-hint {
+            font-size: 22px;
+            letter-spacing: 2px;
+            font-weight: bold;
+            color: #1e3a8a;
+            margin: 5px 0;
+        }
+
+        /* Kotak Jawaban Anak */
+        .answer-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 25px;
+            min-height: 55px;
+            flex-wrap: wrap;
+        }
+
+        .answer-box {
+            width: 50px;
+            height: 50px;
+            border: 3px solid var(--secondary);
+            border-radius: 12px;
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #eff6ff;
+            text-transform: uppercase;
+            cursor: pointer;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        /* Kotak Pilihan Huruf Acak */
+        .letters-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+            min-height: 55px;
+            padding: 12px;
+            background: #f3f4f6;
+            border-radius: 15px;
+        }
+
+        .letter-btn {
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            font-size: 24px;
+            font-weight: bold;
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 4px #1d4ed8;
+            transition: all 0.1s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-transform: uppercase;
+        }
+
+        .letter-btn:active {
+            box-shadow: 0 1px #1d4ed8;
+            transform: translateY(3px);
+        }
+
+        .letter-btn.used {
+            background-color: #9ca3af;
+            box-shadow: 0 4px #4b5563;
+            opacity: 0.4;
+            pointer-events: none;
+        }
+
+        /* Tombol Navigasi */
+        .control-btns {
+            display: flex;
+            justify-content: space-around;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            color: white;
+            box-shadow: 0 4px rgba(0,0,0,0.15);
+            flex: 1;
+        }
+
+        .btn-orange { background-color: var(--accent); box-shadow: 0 4px #c2410c; }
+        .btn-orange:active { box-shadow: 0 1px #c2410c; transform: translateY(3px); }
+        
+        .btn-green { background-color: #22c55e; box-shadow: 0 4px #15803d; }
+        .btn-green:active { box-shadow: 0 1px #15803d; transform: translateY(3px); }
+        
+        /* Pesan Hasil */
+        .feedback {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 15px;
+            min-height: 30px;
+        }
+        .text-success { color: #16a34a; }
+        .text-danger { color: #dc2626; }
+
+        /* Skor Nilai Sederhana */
+        .score-board {
+            font-size: 16px;
+            font-weight: bold;
+            color: #4b5563;
+            margin-bottom: 10px;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="score-board">Bintang: <span id="scoreDisplay">0</span> ⭐</div>
+        <h1>Yuk Susun Huruf! 🌟</h1>
+        <p class="petunjuk">Sentuh huruf acak untuk merangkai kata sesuai gambar</p>
+
+        <!-- Zona Soal -->
+        <div class="game-zone">
+            <div id="emojiDisplay" class="emoji-display">📖</div>
+            <div id="wordHint" class="word-hint">Suku Kata: BU - KU</div>
+        </div>
+
+        <!-- Jawaban Anak -->
+        <div id="answerContainer" class="answer-container"></div>
+
+        <!-- Pilihan Huruf -->
+        <div id="lettersContainer" class="letters-container"></div>
+
+        <!-- Tombol Kontrol -->
+        <div class="control-btns">
+            <button class="btn btn-orange" onclick="resetJawaban()">Ulangi</button>
+            <button class="btn btn-green" onclick="nextSoal()">Lanjut ➡️</button>
+        </div>
+
+        <!-- Feedback Benar/Salah -->
+        <div id="feedback" class="feedback"></div>
+    </div>
+
+    <script>
+        // --- JAVASCRIPT UNTUK LOGIKA GAME ---
+        
+        // Materi Belajar Membaca Kelas 1 SD (Tema: Benda Sekitar & Anggota Tubuh)
+        const daftarSoal = [
+            { kata: "BUKU", emoji: "📖", sukuKata: "BU - KU" },
+            { kata: "BOLA", emoji: "⚽", sukuKata: "BO - LA" },
+            { kata: "MATA", emoji: "👁️", sukuKata: "MA - TA" },
+            { kata: "BAJU", emoji: "👕", sukuKata: "BA - JU" },
+            { kata: "TOPI", emoji: "🤠", sukuKata: "TO - PI" },
+            { kata: "MEJA", emoji: "🪑", sukuKata: "ME - JA" },
+            { kata: "ROTI", emoji: "🍞", sukuKata: "RO - TI" },
+            { kata: "SU-SU", emoji: "🥛", sukuKata: "SU - SU" }
+        ];
+
+        // Membersihkan tanda hubung pada kata kunci rahasia jika ada
+        daftarSoal.forEach(s => s.kataBersih = s.kata.replace(/-/g, ''));
+
+        let indeksSoalSekarang = 0;
+        let jawabanAnak = [];
+        let hurufAcak = [];
+        let totalSkor = 0;
+        let sudahBenar = false;
+
+        function muatSoal() {
+            sudahBenar = false;
+            const soal = daftarSoal[indeksSoalSekarang];
+            jawabanAnak = [];
+            
+            document.getElementById("emojiDisplay").innerText = soal.emoji;
+            document.getElementById("wordHint").innerText = `Suku Kata: ${soal.sukuKata}`;
+            document.getElementById("feedback").innerText = "";
+
+            // Buat kotak jawaban kosong
+            const answerContainer = document.getElementById("answerContainer");
+            answerContainer.innerHTML = "";
+            for (let i = 0; i < soal.kataBersih.length; i++) {
+                const box = document.createElement("div");
+                box.className = "answer-box";
+                box.id = `ans-${i}`;
+                // Fitur interaktif: klik kotak jawaban untuk menghapus huruf terakhir
+                box.onclick = () => hapusHurufTerakhir();
+                answerContainer.appendChild(box);
+            }
+
+            // Mengacak huruf
+            hurufAcak = soal.kataBersih.split('').sort(() => Math.random() - 0.5);
+
+            // Tampilkan tombol huruf
+            const lettersContainer = document.getElementById("lettersContainer");
+            lettersContainer.innerHTML = "";
+            hurufAcak.forEach((huruf, indeks) => {
+                const btn = document.createElement("button");
+                btn.className = "letter-btn";
+                btn.innerText = huruf;
+                btn.id = `btn-huruf-${indeks}`;
+                btn.onclick = () => pilihHuruf(huruf, indeks);
+                lettersContainer.appendChild(btn);
+            });
+        }
+
+        function pilihHuruf(huruf, indeks) {
+            const soal = daftarSoal[indeksSoalSekarang];
+            if (jawabanAnak.length < soal.kataBersih.length && !sudahBenar) {
+                jawabanAnak.push({ huruf: huruf, indeksTombol: indeks });
+                
+                // Tandai tombol sebagai sudah dipakai
+                document.getElementById(`btn-huruf-${indeks}`).classList.add("used");
+
+                // Isi kotak jawaban
+                const posisiUpdate = jawabanAnak.length - 1;
+                document.getElementById(`ans-${posisiUpdate}`).innerText = huruf;
+
+                // Cek otomatis saat kotak penuh
+                if (jawabanAnak.length === soal.kataBersih.length) {
+                    cekJawaban();
+                }
+            }
+        }
+
+        function hapusHurufTerakhir() {
+            if (jawabanAnak.length > 0 && !sudahBenar) {
+                const itemDihapus = jawabanAnak.pop();
