@@ -1,0 +1,1223 @@
+<!DOCTYPE ya html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ular Tangga Edukasi - Belajar Membaca Kelas 1 SD</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@600;800;900&display=swap');
+
+        :root {
+            --primary-color: #ff5722;
+            --secondary-color: #ffc107;
+            --accent-color: #4caf50;
+            --blue-color: #2196f3;
+            --purple-color: #9c27b0;
+            --bg-gradient: linear-gradient(135deg, #a8ff78 0%, #78ffd6 100%);
+            --board-bg: #ffffff;
+            --text-main: #2c3e50;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        body {
+            font-family: 'Fredoka', 'Nunito', 'Comic Sans MS', sans-serif;
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+        /* Screen Wrapper */
+        .app-container {
+            width: 100%;
+            max-width: 1100px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+        }
+
+        /* Landing Page */
+        #landing-screen {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            padding: 40px 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+            border: 6px solid #ffeb3b;
+            animation: bounceIn 0.8s ease;
+        }
+
+        .logo-icon {
+            font-size: 80px;
+            line-height: 1;
+            margin-bottom: 10px;
+            filter: drop-shadow(0 5px 5px rgba(0,0,0,0.15));
+            animation: pulse 2s infinite;
+        }
+
+        h1.title {
+            color: #ff3d00;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 0px #ffe0b2;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 25px;
+            font-weight: 600;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 15px 20px;
+            font-size: 1.2rem;
+            border: 3px solid #00bcd4;
+            border-radius: 20px;
+            outline: none;
+            font-family: inherit;
+            font-weight: 700;
+            color: #00838f;
+            background: #e0f7fa;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus {
+            border-color: #ff4081;
+            background: #fff;
+            box-shadow: 0 0 15px rgba(255,64,129,0.3);
+        }
+
+        .btn-start {
+            background: linear-gradient(180deg, #ff9800 0%, #f57c00 100%);
+            color: white;
+            border: none;
+            border-bottom: 6px solid #e65100;
+            padding: 16px 30px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            border-radius: 25px;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.2s ease;
+            box-shadow: 0 8px 20px rgba(255,152,0,0.4);
+            letter-spacing: 0.5px;
+        }
+
+        .btn-start:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(255,152,0,0.5);
+        }
+
+        .btn-start:active {
+            transform: translateY(3px);
+            border-bottom-width: 2px;
+        }
+
+        /* Game Screen */
+        #game-screen {
+            display: none;
+            width: 100%;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .game-header {
+            width: 100%;
+            max-width: 700px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            border: 3px solid #81c784;
+        }
+
+        .player-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .player-avatar {
+            font-size: 2rem;
+            background: #ffe0b2;
+            padding: 5px 10px;
+            border-radius: 50%;
+            border: 2px solid #ff9800;
+        }
+
+        .player-name-tag {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #2e7d32;
+        }
+
+        .board-container {
+            position: relative;
+            width: 100%;
+            max-width: 650px;
+            aspect-ratio: 1 / 1;
+            background: var(--board-bg);
+            border-radius: 20px;
+            padding: 10px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            border: 8px solid #ffca28;
+            overflow: hidden;
+        }
+
+        .grid-board {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            grid-template-rows: repeat(10, 1fr);
+            width: 100%;
+            height: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid #ccc;
+        }
+
+        .tile {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 4px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            border: 1px solid rgba(0,0,0,0.06);
+            transition: background 0.3s;
+        }
+
+        /* Alternate colors for board tiles */
+        .tile-c1 { background-color: #ffebee; color: #c62828; }
+        .tile-c2 { background-color: #e8f5e9; color: #2e7d32; }
+        .tile-c3 { background-color: #e3f2fd; color: #1565c0; }
+        .tile-c4 { background-color: #fff8e1; color: #f57f17; }
+        .tile-c5 { background-color: #f3e5f5; color: #6a1b9a; }
+
+        .tile-num {
+            font-size: 0.75rem;
+            opacity: 0.85;
+            line-height: 1;
+        }
+
+        .tile-icon {
+            align-self: center;
+            font-size: 1.1rem;
+            line-height: 1;
+            margin-top: 2px;
+        }
+
+        /* SVG Overlay for Snakes and Ladders */
+        #svg-overlay {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: calc(100% - 20px);
+            height: calc(100% - 20px);
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        /* Player Pawn */
+        .pawn {
+            position: absolute;
+            width: 8%;
+            height: 8%;
+            background: radial-gradient(circle at 30% 30%, #ff5252, #b71c1c);
+            border: 3px solid #ffffff;
+            border-radius: 50%;
+            box-shadow: 0 6px 10px rgba(0,0,0,0.4), inset 0 -4px 4px rgba(0,0,0,0.3);
+            z-index: 10;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.9rem;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* Game Controls */
+        .controls-bar {
+            width: 100%;
+            max-width: 650px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 15px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            border: 3px solid #29b6f6;
+        }
+
+        .dice-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dice-btn {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(145deg, #ffffff, #e6e6e6);
+            border: 4px solid #ff9800;
+            border-radius: 18px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #d84315;
+            cursor: pointer;
+            box-shadow: 0 8px 15px rgba(0,0,0,0.15), inset 0 2px 5px rgba(255,255,255,0.8);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .dice-btn:hover:not(:disabled) {
+            transform: scale(1.08) rotate(3deg);
+            box-shadow: 0 12px 20px rgba(0,0,0,0.2);
+        }
+
+        .dice-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            filter: grayscale(0.5);
+        }
+
+        .dice-rolling {
+            animation: roll3d 0.6s ease-in-out infinite alternate;
+        }
+
+        .status-text {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #0277bd;
+            text-align: center;
+            max-width: 300px;
+        }
+
+        /* Floating Shout Effects */
+        .shout-out {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.5);
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: #ffeb3b;
+            text-shadow: 3px 3px 0 #d84315, -3px -3px 0 #d84315, 3px -3px 0 #d84315, -3px 3px 0 #d84315, 0 8px 15px rgba(0,0,0,0.4);
+            pointer-events: none;
+            z-index: 100;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .shout-out.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1.2);
+        }
+
+        /* Question Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 50;
+            padding: 20px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .question-card {
+            background: #ffffff;
+            border-radius: 30px;
+            padding: 30px 25px;
+            max-width: 520px;
+            width: 100%;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+            border: 6px solid #42a5f5;
+            text-align: center;
+            transform: scale(0.8);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+
+        .modal-overlay.active .question-card {
+            transform: scale(1);
+        }
+
+        .q-badge {
+            display: inline-block;
+            background: #ab47bc;
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .q-text {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .opt-btn {
+            background: #f5f5f5;
+            border: 3px solid #e0e0e0;
+            border-bottom: 6px solid #bdbdbd;
+            border-radius: 18px;
+            padding: 14px 10px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .opt-btn:hover {
+            background: #e3f2fd;
+            border-color: #29b6f6;
+            transform: translateY(-2px);
+        }
+
+        .opt-btn:active {
+            transform: translateY(2px);
+            border-bottom-width: 3px;
+        }
+
+        /* Feedback Screen inside Modal */
+        .feedback-box {
+            display: none;
+            padding: 15px;
+            border-radius: 15px;
+            font-size: 1.2rem;
+            font-weight: 800;
+            margin-top: 10px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .feedback-correct {
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #c3e6cb;
+        }
+
+        .feedback-wrong {
+            background: #f8d7da;
+            color: #721c24;
+            border: 2px solid #f5c6cb;
+        }
+
+        /* Win Modal */
+        .win-card {
+            background: #ffffff;
+            border-radius: 30px;
+            padding: 40px 30px;
+            text-align: center;
+            border: 8px solid #ffca28;
+            max-width: 480px;
+            width: 100%;
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
+
+        @keyframes bounceIn {
+            0% { opacity: 0; transform: scale(0.3); }
+            50% { opacity: 1; transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes roll3d {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.2); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Confetti Canvas */
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 99;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            .app-container { padding: 8px; }
+            h1.title { font-size: 1.7rem; }
+            .board-container { border-width: 5px; padding: 5px; }
+            #svg-overlay { top: 5px; left: 5px; width: calc(100% - 10px); height: calc(100% - 10px); }
+            .tile-num { font-size: 0.65rem; }
+            .tile-icon { font-size: 0.85rem; }
+            .options-grid { grid-template-columns: 1fr; }
+            .q-text { font-size: 1.15rem; }
+            .dice-btn { width: 60px; height: 60px; font-size: 1.8rem; }
+            .status-text { font-size: 0.95rem; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="confetti-canvas"></canvas>
+    <div id="shout" class="shout-out">HORE!</div>
+
+    <div class="app-container">
+        <!-- Landing Page -->
+        <div id="landing-screen">
+            <div class="logo-icon">🏆🐍🪜</div>
+            <h1 class="title">Ular Tangga Edukasi</h1>
+            <p class="subtitle">Pintar Membaca & Menyusun Kata (Kelas 1 SD)</p>
+            
+            <div class="input-group">
+                <label for="player-name-input">Masukkan Nama Pahlawan Kecil:</label>
+                <input type="text" id="player-name-input" placeholder="Contoh: Budi" maxlength="15" autocomplete="off">
+            </div>
+
+            <button class="btn-start" onclick="startGame()">Mulai Petualangan Belajar! 🚀</button>
+        </div>
+
+        <!-- Game Screen -->
+        <div id="game-screen">
+            <!-- Header Info -->
+            <div class="game-header">
+                <div class="player-info">
+                    <span class="player-avatar">👧</span>
+                    <span class="player-name-tag" id="display-player-name">Semangat, Budi!</span>
+                </div>
+                <button onclick="confirmReset()" style="background:#ef5350; border:none; color:white; padding:8px 15px; border-radius:15px; font-weight:bold; cursor:pointer;">Ulangi 🔄</button>
+            </div>
+
+            <!-- Board View -->
+            <div class="board-container">
+                <div class="grid-board" id="board-grid"></div>
+                <!-- SVG lines for Snakes and Ladders overlay -->
+                <svg id="svg-overlay"></svg>
+                <!-- Player Pawn -->
+                <div class="pawn" id="player-pawn">1</div>
+            </div>
+
+            <!-- Controls -->
+            <div class="controls-bar">
+                <div class="dice-box">
+                    <button class="dice-btn" id="dice-btn" onclick="rollDice()">🎲</button>
+                    <span style="font-size:0.85rem; font-weight:700; color:#555;">Klik Dadu</span>
+                </div>
+                <div class="status-text" id="status-msg">Giliranmu! Lempar dadu untuk melangkah.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Question Modal -->
+    <div class="modal-overlay" id="question-modal">
+        <div class="question-card">
+            <span class="q-badge" id="modal-tile-badge">Kotak 15</span>
+            <div class="q-text" id="modal-question-text">B - U - K - U disusun menjadi kata...</div>
+            <div class="options-grid" id="modal-options"></div>
+            <div class="feedback-box" id="modal-feedback"></div>
+        </div>
+    </div>
+
+    <!-- Win Modal -->
+    <div class="modal-overlay" id="win-modal">
+        <div class="win-card">
+            <div style="font-size: 80px; margin-bottom: 10px;">👑🎉✨</div>
+            <h2 style="color: #2e7d32; font-size: 2rem; margin-bottom: 10px;">HEBAT BANGET!</h2>
+            <p id="win-message-text" style="font-size: 1.2rem; font-weight: 700; color: #333; margin-bottom: 25px;">
+                Selamat! Kamu berhasil mencapai Kotak 100 dan pintar membaca!
+            </p>
+            <button class="btn-start" onclick="restartGame()">Main Lagi! 🔁</button>
+        </div>
+    </div>
+
+    <script>
+        // Audio Synthesizer for SFX
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        
+        function playSound(type) {
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            const now = audioCtx.currentTime;
+
+            if (type === 'step') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(300, now);
+                osc.frequency.exponentialRampToValueAtTime(600, now + 0.1);
+                gain.gain.setValueAtTime(0.2, now);
+                gain.gain.linearRampToValueAtTime(0, now + 0.1);
+                osc.start(now);
+                osc.stop(now + 0.1);
+            } else if (type === 'roll') {
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(150, now);
+                osc.frequency.linearRampToValueAtTime(400, now + 0.2);
+                gain.gain.setValueAtTime(0.1, now);
+                gain.gain.linearRampToValueAtTime(0, now + 0.2);
+                osc.start(now);
+                osc.stop(now + 0.2);
+            } else if (type === 'correct') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(523.25, now); // C5
+                osc.frequency.setValueAtTime(659.25, now + 0.1); // E5
+                osc.frequency.setValueAtTime(783.99, now + 0.2); // G5
+                gain.gain.setValueAtTime(0.3, now);
+                gain.gain.linearRampToValueAtTime(0, now + 0.4);
+                osc.start(now);
+                osc.stop(now + 0.4);
+            } else if (type === 'wrong') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(220, now);
+                osc.frequency.setValueAtTime(180, now + 0.15);
+                gain.gain.setValueAtTime(0.3, now);
+                gain.gain.linearRampToValueAtTime(0, now + 0.35);
+                osc.start(now);
+                osc.stop(now + 0.35);
+            } else if (type === 'ladder') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(300, now);
+                osc.frequency.linearRampToValueAtTime(900, now + 0.5);
+                gain.gain.setValueAtTime(0.25, now);
+                gain.gain.linearRampToValueAtTime(0, now + 0.5);
+                osc.start(now);
+                osc.stop(now + 0.5);
+            } else if (type === 'snake') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(600, now);
+                osc.frequency.linearRampToValueAtTime(200, now + 0.5);
+                gain.gain.setValueAtTime(0.25, now);
+                gain.gain.linearRampToValueAtTime(0, now + 0.5);
+                osc.start(now);
+                osc.stop(now + 0.5);
+            } else if (type === 'win') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(440, now);
+                osc.frequency.setValueAtTime(554.37, now + 0.15);
+                osc.frequency.setValueAtTime(659.25, now + 0.3);
+                osc.frequency.setValueAtTime(880, now + 0.45);
+                gain.gain.setValueAtTime(0.4, now);
+                gain.gain.linearRampToValueAtTime(0, now + 0.8);
+                osc.start(now);
+                osc.stop(now + 0.8);
+            }
+        }
+
+        let playerName = "Pintar";
+        let currentPosition = 1;
+        let isMoving = false;
+
+        // Snakes and Ladders Definitions
+        const ladders = {
+            4: 14,
+            9: 31,
+            20: 38,
+            28: 84,
+            40: 59,
+            63: 81,
+            71: 91
+        };
+
+        const snakes = {
+            17: 7,
+            54: 34,
+            62: 19,
+            64: 60,
+            87: 24,
+            93: 73,
+            99: 78
+        };
+
+        // 100 Unique Questions for Grade 1 SD Bahasa Indonesia (Tile 1 to Tile 100)
+        const questionsData = {
+            1: null, // Start Tile
+            2: { q: "Lengkapi kata: S _ P U (🧹 Sapu)", opts: ["A", "I", "U", "E"], ans: 0 },
+            3: { q: "Susun huruf: B - A - T - U", opts: ["BATU", "BUTU", "TABA", "TUBA"], ans: 0 },
+            4: { q: "Gambar 👕 BAJU. Suku kata pertamanya adalah...", opts: ["BA", "JU", "MA", "TA"], ans: 0 },
+            5: { q: "Suku kata awal kata 'MATA' 👁️ adalah...", opts: ["MA", "TA", "MI", "MO"], ans: 0 },
+            6: { q: "Susun huruf: K - U - D - A (🐎)", opts: ["KUDA", "DUKA", "KADU", "DAKU"], ans: 0 },
+            7: { q: "Lengkapi kata: B I _ U (🔵 Warna laut)", opts: ["R", "L", "M", "S"], ans: 0 },
+            8: { q: "Huruf vokal pada kata 'BOLA' ⚽ adalah...", opts: ["O dan A", "I dan U", "E dan A", "U dan O"], ans: 0 },
+            9: { q: "Kata 'RUMI' terdiri dari berapa suku kata?", opts: ["2 Suku Kata", "3 Suku Kata", "1 Suku Kata", "4 Suku Kata"], ans: 0 },
+            10: { q: "B-U-K-U dibaca... 📖", opts: ["BUKU", "KUBU", "SUKU", "DUKU"], ans: 0 },
+            11: { q: "Lengkapi kata: N A S _ (🍚 Makanan pokok)", opts: ["I", "U", "A", "O"], ans: 0 },
+            12: { q: "Gambar 🛏️ KASUR. Suku kata keduanya adalah...", opts: ["SUR", "KA", "KUR", "SAR"], ans: 0 },
+            13: { q: "Susun kata: I - B - U", opts: ["IBU", "UBI", "BUI", "IUB"], ans: 0 },
+            14: { q: "Suku kata awal kata 'PENA' 🖊️ adalah...", opts: ["PE", "NA", "PI", "PA"], ans: 0 },
+            15: { q: "B-I-S-A dibaca...", opts: ["BISA", "BASI", "SABI", "ISAB"], ans: 0 },
+            16: { q: "Lengkapi kata: R O T _ (🍞 Makanan lezat)", opts: ["I", "O", "E", "A"], ans: 0 },
+            17: { q: "Pilih kata hewan berkaki empat 🐱:", opts: ["KUCING", "IKAN", "BURUNG", "ULAR"], ans: 0 },
+            18: { q: "Susun huruf: M - A - C - A - N (🐅)", opts: ["MACAN", "MANCA", "CAMAN", "CANMA"], ans: 0 },
+            19: { q: "Lengkapi: S A Y U _ (🥦 Makanan sehat)", opts: ["R", "S", "L", "N"], ans: 0 },
+            20: { q: "Suku kata awal kata 'DUDUK' 🪑 adalah...", opts: ["DU", "DK", "DA", "DI"], ans: 0 },
+            21: { q: "Susun huruf: C - A - C - I - N - G (🪱)", opts: ["CACING", "CANGCI", "CINGCA", "CICANG"], ans: 0 },
+            22: { q: "Lengkapi: M I N U _ (🥛 Minum air)", opts: ["M", "N", "K", "R"], ans: 0 },
+            23: { q: "Manakah kata yang berawalan huruf 'K'?", opts: ["KELINCI", "GAJAH", "BEBEK", "AYAM"], ans: 0 },
+            24: { q: "M-A-K-A-N dibaca... 🍎", opts: ["MAKAN", "MAKAM", "MAKAL", "MAKAK"], ans: 0 },
+            25: { q: "Lengkapi vokal: T O M _ T (🍅)", opts: ["A", "I", "U", "E"], ans: 0 },
+            26: { q: "Kata 'SEPATU' 👟 memiliki berapa huruf?", opts: ["6 Huruf", "5 Huruf", "7 Huruf", "4 Huruf"], ans: 0 },
+            27: { q: "Susun huruf: D - A - U - N (🍃)", opts: ["DAUN", "DUAN", "ANDU", "NDUA"], ans: 0 },
+            28: { q: "Suku kata awal kata 'GURU' 🧑‍🏫 adalah...", opts: ["GU", "RU", "GA", "GI"], ans: 0 },
+            29: { q: "Lengkapi kata: S E K O L A _ (🏫)", opts: ["H", "K", "R", "N"], ans: 0 },
+            30: { q: "Pilih kata yang bunyi akhirnya 'N':", opts: ["POHON", "MEJA", "BOLA", "KASUR"], ans: 0 },
+            31: { q: "Susun huruf: B - U - R - U - N - G (🦜)", opts: ["BURUNG", "RUBUNG", "RUNGBU", "URUNGB"], ans: 0 },
+            32: { q: "Lengkapi: B A L O _ (🎈 Terbang di udara)", opts: ["N", "K", "M", "G"], ans: 0 },
+            33: { q: "Suku kata kedua dari kata 'TOPI' 🧢 adalah...", opts: ["PI", "TO", "TA", "PA"], ans: 0 },
+            34: { q: "Manakah buah berwarna merah? 🍎", opts: ["APEL", "PISANG", "MELON", "GUA"], ans: 0 },
+            35: { q: "Susun huruf: G - A - J - A - H (🐘)", opts: ["GAJAH", "JAGAH", "HAGAJ", "AJAGH"], ans: 0 },
+            36: { q: "Lengkapi kata: B U N G _ (🌸)", opts: ["A", "I", "U", "O"], ans: 0 },
+            37: { q: "Kata 'PENSIL' ✏️ diawali dengan huruf...", opts: ["P", "S", "L", "N"], ans: 0 },
+            38: { q: "L-A-R-I dibaca...", opts: ["LARI", "LIRA", "RAIL", "ALIR"], ans: 0 },
+            39: { q: "Lengkapi: T I D U _ (🛌 Di malam hari)", opts: ["R", "L", "N", "M"], ans: 0 },
+            40: { q: "Gambar 🐥 ITIK. Huruf depannya adalah...", opts: ["I", "A", "U", "E"], ans: 0 },
+            41: { q: "Susun huruf: P - I - S - A - N - G (🍌)", opts: ["PISANG", "SINGPA", "NGPISA", "SIPANG"], ans: 0 },
+            42: { q: "Suku kata awal kata 'LEMARI' 🗄️ adalah...", opts: ["LE", "MA", "RI", "LA"], ans: 0 },
+            43: { q: "Lengkapi kata: P A _ A S (☀️ Cuaca terik)", opts: ["N", "M", "R", "L"], ans: 0 },
+            44: { q: "Manakah yang merupakan nama benda kelas? 🪑", opts: ["MEJA", "KUCING", "BEBEK", "AWAN"], ans: 0 },
+            45: { q: "Susun huruf: C - A - N - T - I - K", opts: ["CANTIK", "TIKCAN", "KANCIT", "CITKAN"], ans: 0 },
+            46: { q: "Lengkapi kata: H U J A _ (🌧️ Air turun)", opts: ["N", "M", "R", "S"], ans: 0 },
+            47: { q: "Huruf konsonan pada kata 'AYAM' 🐓 adalah...", opts: ["Y dan M", "A dan A", "A dan Y", "Y dan A"], ans: 0 },
+            48: { q: "Suku kata awal dari 'KAPAL' 🚢 adalah...", opts: ["KA", "PAL", "LA", "KI"], ans: 0 },
+            49: { q: "Susun huruf: B - A - N - T - U", opts: ["BANTU", "BUTAN", "TABUN", "TUNAB"], ans: 0 },
+            50: { q: "Lengkapi kata: C E L A N _ (👖)", opts: ["A", "I", "U", "E"], ans: 0 },
+            51: { q: "Manakah buah manis berwarna kuning? 🍌", opts: ["PISANG", "SIRSAK", "MANGGIS", "BAMBU"], ans: 0 },
+            52: { q: "Lengkapi vokal: M A T A H A R _ (☀️)", opts: ["I", "A", "U", "E"], ans: 0 },
+            53: { q: "Susun huruf: D - O - M - B - A (🐑)", opts: ["DOMBA", "BOMDA", "MADOB", "MBADO"], ans: 0 },
+            54: { q: "Suku kata kedua dari kata 'MANDI' 🛁 adalah...", opts: ["DI", "MAN", "DA", "DU"], ans: 0 },
+            55: { q: "Lengkapi kata: K E R E T _ (🚆 Transportasi)", opts: ["A", "I", "U", "O"], ans: 0 },
+            56: { q: "M-E-R-A-H dibaca... 🔴", opts: ["MERAH", "MEWAH", "MARAH", "MURAH"], ans: 0 },
+            57: { q: "Susun huruf: S - E - M - U - T (🐜)", opts: ["SEMUT", "MUTSE", "TUMSE", "STEMU"], ans: 0 },
+            58: { q: "Lengkapi kata: G I G _ (🦷 Warna putih)", opts: ["I", "A", "U", "E"], ans: 0 },
+            59: { q: "Suku kata awal dari kata 'RODA' 🛞 adalah...", opts: ["RO", "DA", "RI", "DU"], ans: 0 },
+            60: { q: "Manakah hewan berenang di air? 🐟", opts: ["IKAN", "BURUNG", "KERA", "KUCING"], ans: 0 },
+            61: { q: "Susun huruf: C - E - R - M - I - N (🪞)", opts: ["CERMIN", "MINCER", "RINCEM", "MIRCEN"], ans: 0 },
+            62: { q: "Lengkapi kata: P A S A _ ( Tempat belanja)", opts: ["R", "L", "N", "S"], ans: 0 },
+            63: { q: "Suku kata akhir kata 'BEBEK' 🦆 adalah...", opts: ["BEK", "BE", "BA", "BOK"], ans: 0 },
+            64: { q: "B-I-N-T-A-N-G dibaca... ⭐", opts: ["BINTANG", "BATANG", "BANTENG", "BITANG"], ans: 0 },
+            65: { q: "Susun huruf: J - E - R - U - K (🍊)", opts: ["JERUK", "RUKJE", "KREJU", "JUKER"], ans: 0 },
+            66: { q: "Lengkapi kata: A W A _ (☁️ Di langit)", opts: ["N", "M", "R", "S"], ans: 0 },
+            67: { q: "Huruf vokal kata 'KANCIL' 🦌 adalah...", opts: ["A dan I", "U dan E", "O dan A", "I dan U"], ans: 0 },
+            68: { q: "Suku kata awal dari kata 'PAYUNG' ☂️ adalah...", opts: ["PA", "YUNG", "PI", "PU"], ans: 0 },
+            69: { q: "Susun huruf: T - E - L - U - R (🥚)", opts: ["TELUR", "LURTE", "RULTE", "TERUL"], ans: 0 },
+            70: { q: "Lengkapi kata: T A N G A _ (🪜 Dipakai memanjat)", opts: ["N", "M", "R", "K"], ans: 0 },
+            71: { q: "Manakah benda yang terasa dingin? 🧊", opts: ["ES BATU", "KOPI PANAS", "API", "SUP"], ans: 0 },
+            72: { q: "Susun huruf: B - E - R - S - I - H", opts: ["BERSIH", "SIHBER", "RIHBES", "HERBIS"], ans: 0 },
+            73: { q: "Lengkapi kata: S U S _ (🥛 Sehat diminum)", opts: ["U", "A", "I", "O"], ans: 0 },
+            74: { q: "Suku kata pertama kata 'PIRING' 🍽️ adalah...", opts: ["PI", "RING", "PA", "PU"], ans: 0 },
+            75: { q: "M-A-T-A-H-A-R-I dibaca... ☀️", opts: ["MATAHARI", "MATAHATI", "MATAHARIU", "MATAHARI_"], ans: 0 },
+            76: { q: "Susun huruf: L - A - P - A - N - G - A - N ⚽", opts: ["LAPANGAN", "PALANGAN", "NALANGAN", "GALANGAN"], ans: 0 },
+            77: { q: "Lengkapi kata: S E P E D _ (🚲)", opts: ["A", "I", "U", "E"], ans: 0 },
+            78: { q: "Benda berkaki empat untuk duduk adalah... 🪑", opts: ["KURSI", "PINTU", "JENDELA", "ATAP"], ans: 0 },
+            79: { q: "Susun huruf: R - U - M - A - H (🏠)", opts: ["RUMAH", "MARUH", "HUMAR", "HAMUR"], ans: 0 },
+            80: { q: "Lengkapi kata: T A M A _ (🌸 Tempat bermain)", opts: ["N", "R", "S", "M"], ans: 0 },
+            81: { q: "Suku kata awal kata 'MANGGA' 🥭 adalah...", opts: ["MANG", "GA", "MA", "MI"], ans: 0 },
+            82: { q: "Manakah nama anggota tubuh kita? 👁️", opts: ["MATA", "MEJA", "MOTEL", "MANGKUK"], ans: 0 },
+            83: { q: "Susun huruf: B - A - W - A - N - G (🧅)", opts: ["BAWANG", "WABANG", "NGABAW", "GABAWN"], ans: 0 },
+            84: { q: "Lengkapi kata: L A M P _ (💡 Penerang)", opts: ["U", "A", "I", "E"], ans: 0 },
+            85: { q: "K-E-L-I-N-C-I dibaca... 🐇", opts: ["KELINCI", "KELINCIU", "KELINCIT", "KELINCIS"], ans: 0 },
+            86: { q: "Susun huruf: P - I - N - T - U (🚪)", opts: ["PINTU", "TUPIN", "NTUPI", "INTUP"], ans: 0 },
+            87: { q: "Lengkapi kata: C E L A N A _ (👖)", opts: ["PANN", "K", "R", "A"], ans: 3 }, // Fixed index 3 (A)
+            88: { q: "Suku kata kedua kata 'SEPATU' 👟 adalah...", opts: ["PA", "SE", "TU", "PI"], ans: 0 },
+            89: { q: "Kata berawalan huruf 'S': 🧹", opts: ["SAPU", "BUKU", "KAPAL", "DUKU"], ans: 0 },
+            90: { q: "Susun huruf: K - A - M - B - I - N - G (🐐)", opts: ["KAMBING", "BINGKAM", "MINGKAB", "KINGBAM"], ans: 0 },
+            91: { q: "Lengkapi kata: H U R U _ (📝 A, B, C)", opts: ["F", "S", "N", "M"], ans: 0 },
+            92: { q: "Bunga berwarna merah harum adalah... 🌹", opts: ["MAWAR", "MELATI", "ANGGREK", "DAHLIA"], ans: 0 },
+            93: { q: "Susun huruf: J - E - N - D - E - L - A (🪟)", opts: ["JENDELA", "LADAJEN", "NDELAJE", "DELAJEN"], ans: 0 },
+            94: { q: "Lengkapi kata: C A L O _ ( Suku kata ca-lon)", opts: ["N", "M", "K", "R"], ans: 0 },
+            95: { q: "Suku kata awal kata 'POHON' 🌳 adalah...", opts: ["PO", "HON", "PA", "PU"], ans: 0 },
+            96: { q: "Huruf pertama kata 'ZEBRA' 🦓 adalah...", opts: ["Z", "E", "B", "R"], ans: 0 },
+            97: { q: "Susun huruf: S - E - M - A - N - G - K - A (🍉)", opts: ["SEMANGKA", "KASEMANG", "MANGKASE", "NGKASEMA"], ans: 0 },
+            98: { q: "Lengkapi kata: T E R I M A   K A S I _ (🙏)", opts: ["H", "S", "N", "R"], ans: 0 },
+            99: { q: "Suku kata pertama dari 'PINTAR' 🎓 adalah...", opts: ["PIN", "TAR", "PA", "PI"], ans: 0 },
+            100: { q: "🏆 SOAL KEMENANGAN: R-A-J-I-N  B-E-L-A-J-A-R dibaca...", opts: ["RAJIN BELAJAR", "RAJIN MEMBACA", "RAJIN MENULIS", "RAJIN BERMAIN"], ans: 0 }
+        };
+
+        function createBoard() {
+            const grid = document.getElementById('board-grid');
+            grid.innerHTML = '';
+
+            // Grid order: top row 10 (100..91), row 9 (81..90), ..., bottom row 1 (1..10)
+            for (let r = 10; r >= 1; r--) {
+                const isEvenRow = (r % 2 === 0);
+                for (let c = 1; c <= 10; c++) {
+                    let tileNum;
+                    if (isEvenRow) {
+                        tileNum = (r * 10) - (c - 1);
+                    } else {
+                        tileNum = ((r - 1) * 10) + c;
+                    }
+
+                    const tile = document.createElement('div');
+                    const colorClass = `tile-c${((tileNum - 1) % 5) + 1}`;
+                    tile.className = `tile ${colorClass}`;
+                    tile.id = `tile-${tileNum}`;
+
+                    let icon = '';
+                    if (ladders[tileNum]) icon = '🪜';
+                    else if (snakes[tileNum]) icon = '🐍';
+                    else if (tileNum === 100) icon = '🏆';
+                    else if (tileNum === 1) icon = '🚀';
+
+                    tile.innerHTML = `
+                        <span class="tile-num">${tileNum}</span>
+                        <span class="tile-icon">${icon}</span>
+                    `;
+
+                    grid.appendChild(tile);
+                }
+            }
+        }
+
+        function drawOverlay() {
+            const svg = document.getElementById('svg-overlay');
+            svg.innerHTML = '';
+            const boardRect = document.getElementById('board-grid').getBoundingClientRect();
+
+            // Function to get center coordinate of a tile relative to SVG
+            function getTileCenter(num) {
+                const el = document.getElementById(`tile-${num}`);
+                if (!el) return { x: 0, y: 0 };
+                const rect = el.getBoundingClientRect();
+                return {
+                    x: (rect.left + rect.width / 2) - boardRect.left,
+                    y: (rect.top + rect.height / 2) - boardRect.top
+                };
+            }
+
+            // Draw Ladders (Green lines)
+            for (let start in ladders) {
+                let end = ladders[start];
+                let p1 = getTileCenter(start);
+                let p2 = getTileCenter(end);
+
+                let line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', p1.x);
+                line.setAttribute('y1', p1.y);
+                line.setAttribute('x2', p2.x);
+                line.setAttribute('y2', p2.y);
+                line.setAttribute('stroke', '#2e7d32');
+                line.setAttribute('stroke-width', '8');
+                line.setAttribute('stroke-linecap', 'round');
+                line.setAttribute('opacity', '0.75');
+                svg.appendChild(line);
+
+                // Rail dashes for ladder effect
+                let dash = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                dash.setAttribute('x1', p1.x);
+                dash.setAttribute('y1', p1.y);
+                dash.setAttribute('x2', p2.x);
+                dash.setAttribute('y2', p2.y);
+                dash.setAttribute('stroke', '#a5d6a7');
+                dash.setAttribute('stroke-width', '4');
+                dash.setAttribute('stroke-dasharray', '6,6');
+                dash.setAttribute('stroke-linecap', 'round');
+                svg.appendChild(dash);
+            }
+
+            // Draw Snakes (Orange/Red curved lines)
+            for (let start in snakes) {
+                let end = snakes[start];
+                let p1 = getTileCenter(start); // Head
+                let p2 = getTileCenter(end);   // Tail
+
+                // Curved snake path using quadratic Bezier
+                let midX = (p1.x + p2.x) / 2 + 30;
+                let midY = (p1.y + p2.y) / 2 - 20;
+
+                let path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                let d = `M ${p1.x} ${p1.y} Q ${midX} ${midY} ${p2.x} ${p2.y}`;
+                path.setAttribute('d', d);
+                path.setAttribute('stroke', '#d84315');
+                path.setAttribute('stroke-width', '7');
+                path.setAttribute('fill', 'none');
+                path.setAttribute('stroke-linecap', 'round');
+                path.setAttribute('opacity', '0.8');
+                svg.appendChild(path);
+            }
+        }
+
+        function updatePawnPosition(tileNum, animate = true) {
+            const pawn = document.getElementById('player-pawn');
+            const tile = document.getElementById(`tile-${tileNum}`);
+            if (!tile) return;
+
+            const boardContainer = document.querySelector('.board-container').getBoundingClientRect();
+            const tileRect = tile.getBoundingClientRect();
+
+            const left = tileRect.left - boardContainer.left + (tileRect.width * 0.1);
+            const top = tileRect.top - boardContainer.top + (tileRect.height * 0.1);
+
+            pawn.style.left = `${left}px`;
+            pawn.style.top = `${top}px`;
+            pawn.innerText = tileNum;
+        }
+
+        function startGame() {
+            const input = document.getElementById('player-name-input').value.trim();
+            if (input !== "") {
+                playerName = input;
+            } else {
+                playerName = "Anak Pintar";
+            }
+
+            document.getElementById('display-player-name').innerText = `Semangat, ${playerName}!`;
+            document.getElementById('landing-screen').style.display = 'none';
+            document.getElementById('game-screen').style.display = 'flex';
+
+            createBoard();
+            setTimeout(() => {
+                drawOverlay();
+                updatePawnPosition(1, false);
+            }, 100);
+
+            window.addEventListener('resize', () => {
+                drawOverlay();
+                updatePawnPosition(currentPosition, false);
+            });
+        }
+
+        function triggerShout(text) {
+            const shout = document.getElementById('shout');
+            shout.innerText = text;
+            shout.classList.add('show');
+            setTimeout(() => {
+                shout.classList.remove('show');
+            }, 1000);
+        }
+
+        function rollDice() {
+            if (isMoving) return;
+            isMoving = true;
+
+            const diceBtn = document.getElementById('dice-btn');
+            const statusMsg = document.getElementById('status-msg');
+            diceBtn.disabled = true;
+            diceBtn.classList.add('dice-rolling');
+
+            playSound('roll');
+            statusMsg.innerText = "Dadu sedang berputar...";
+
+            let rollCount = 0;
+            let diceVal = 1;
+            const diceInterval = setInterval(() => {
+                diceVal = Math.floor(Math.random() * 6) + 1;
+                const diceEmojis = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
+                diceBtn.innerText = diceEmojis[diceVal - 1];
+                rollCount++;
+
+                if (rollCount > 10) {
+                    clearInterval(diceInterval);
+                    diceBtn.classList.remove('dice-rolling');
+                    statusMsg.innerText = `${playerName} mendapat angka ${diceVal}!`;
+                    triggerShout(`${diceVal}!`);
+
+                    setTimeout(() => {
+                        moveSteps(diceVal);
+                    }, 500);
+                }
+            }, 60);
+        }
+
+        async function moveSteps(steps) {
+            let targetPos = currentPosition + steps;
+            if (targetPos > 100) {
+                targetPos = 100 - (targetPos - 100); // Bounce back if over 100
+            }
+
+            for (let i = 0; i < steps; i++) {
+                if (currentPosition < targetPos) {
+                    currentPosition++;
+                } else if (currentPosition > targetPos) {
+                    currentPosition--;
+                }
+                updatePawnPosition(currentPosition);
+                playSound('step');
+                await new Promise(r => setTimeout(r, 400));
+            }
+
+            // Check Question Challenge or Special Tile
+            setTimeout(() => {
+                checkTileEvents();
+            }, 300);
+        }
+
+        function checkTileEvents() {
+            // Check Ladder
+            if (ladders[currentPosition]) {
+                const destination = ladders[currentPosition];
+                triggerShout("HORE! TANGGA! 🪜");
+                playSound('ladder');
+                document.getElementById('status-msg').innerText = "Hebat! Kamu menemukan tangga!";
+                
+                setTimeout(() => {
+                    currentPosition = destination;
+                    updatePawnPosition(currentPosition);
+                    setTimeout(() => { promptQuestion(currentPosition); }, 600);
+                }, 800);
+                return;
+            }
+
+            // Check Snake
+            if (snakes[currentPosition]) {
+                const destination = snakes[currentPosition];
+                triggerShout("BZZZT! ULAR! 🐍");
+                playSound('snake');
+                document.getElementById('status-msg').innerText = "Ooh! Ada ular, merosot turun...";
+
+                setTimeout(() => {
+                    currentPosition = destination;
+                    updatePawnPosition(currentPosition);
+                    setTimeout(() => { promptQuestion(currentPosition); }, 600);
+                }, 800);
+                return;
+            }
+
+            // Check Win Condition
+            if (currentPosition === 100) {
+                promptQuestion(100);
+                return;
+            }
+
+            // Standard Question Modal
+            promptQuestion(currentPosition);
+        }
+
+        function promptQuestion(tileNum) {
+            const modal = document.getElementById('question-modal');
+            const badge = document.getElementById('modal-tile-badge');
+            const qText = document.getElementById('modal-question-text');
+            const optsContainer = document.getElementById('modal-options');
+            const feedback = document.getElementById('modal-feedback');
+
+            feedback.style.display = 'none';
+            optsContainer.innerHTML = '';
+
+            const questionObj = questionsData[tileNum] || {
+                q: `Ayo membaca di Kotak ${tileNum}! Manakah kata yang benar?`,
+                opts: ["BUKU", "BABI", "BOLA", "BATU"],
+                ans: 0
+            };
+
+            badge.innerText = `Tantangan Membaca - Kotak ${tileNum}`;
+            qText.innerText = questionObj.q;
+
+            questionObj.opts.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'opt-btn';
+                btn.innerText = opt;
+                btn.onclick = () => checkAnswer(idx, questionObj.ans, tileNum);
+                optsContainer.appendChild(btn);
+            });
+
+            modal.classList.add('active');
+        }
+
+        function checkAnswer(selectedIdx, correctIdx, tileNum) {
+            const feedback = document.getElementById('modal-feedback');
+            const modal = document.getElementById('question-modal');
+            const optBtns = document.querySelectorAll('.opt-btn');
+
+            optBtns.forEach(btn => btn.disabled = true);
+
+            if (selectedIdx === correctIdx) {
+                // Correct
+                playSound('correct');
+                feedback.className = 'feedback-box feedback-correct';
+                feedback.innerText = '✨ JAWABANMU BENAR! PINAR BANGET! ✨';
+                feedback.style.display = 'block';
+
+                setTimeout(() => {
+                    modal.classList.remove('active');
+                    document.getElementById('dice-btn').disabled = false;
+                    isMoving = false;
+                    document.getElementById('status-msg').innerText = "Ayo lempar dadu lagi!";
+
+                    if (tileNum === 100) {
+                        triggerWin();
+                    }
+                }, 1500);
+            } else {
+                // Incorrect
+                playSound('wrong');
+                feedback.className = 'feedback-box feedback-wrong';
+                feedback.innerText = '❌ Ups, Kurang Tepat! Bidak mundur 1 langkah ya.';
+                feedback.style.display = 'block';
+
+                setTimeout(() => {
+                    modal.classList.remove('active');
+                    // Step back 1 space as punishment
+                    if (currentPosition > 1) {
+                        currentPosition--;
+                        updatePawnPosition(currentPosition);
+                    }
+                    document.getElementById('dice-btn').disabled = false;
+                    isMoving = false;
+                    document.getElementById('status-msg').innerText = "Jangan menyerah, coba lagi!";
+                }, 1800);
+            }
+        }
+
+        function triggerWin() {
+            playSound('win');
+            startConfetti();
+            document.getElementById('win-message-text').innerText = `Selamat ${playerName}! Kamu berhasil menyelesaikan 100 Kotak Belajar Membaca dengan Sangat Hebat! 🎓⭐`;
+            document.getElementById('win-modal').classList.add('active');
+        }
+
+        function restartGame() {
+            document.getElementById('win-modal').classList.remove('active');
+            stopConfetti();
+            currentPosition = 1;
+            updatePawnPosition(1, false);
+            document.getElementById('dice-btn').disabled = false;
+            isMoving = false;
+            document.getElementById('status-msg').innerText = "Petualangan baru dimulai! Lempar dadu.";
+        }
+
+        function confirmReset() {
+            if (confirm("Apakah kamu ingin mengulang permainan dari awal?")) {
+                restartGame();
+            }
+        }
+
+        let confettiAnimationId = null;
+        function startConfetti() {
+            const canvas = document.getElementById('confetti-canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const particles = [];
+            const colors = ['#ff5722', '#ffc107', '#4caf50', '#00bcd4', '#9c27b0', '#ff4081'];
+
+            for (let i = 0; i < 120; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height - canvas.height,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    size: Math.random() * 10 + 5,
+                    speedY: Math.random() * 3 + 2,
+                    speedX: Math.random() * 2 - 1,
+                    angle: Math.random() * 360
+                });
+            }
+
+            function render() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                particles.forEach(p => {
+                    p.y += p.speedY;
+                    p.x += p.speedX;
+                    p.angle += 2;
+
+                    ctx.save();
+                    ctx.translate(p.x, p.y);
+                    ctx.rotate((p.angle * Math.PI) / 180);
+                    ctx.fillStyle = p.color;
+                    ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+                    ctx.restore();
+
+                    if (p.y > canvas.height) {
+                        p.y = -10;
+                        p.x = Math.random() * canvas.width;
+                    }
+                });
+
+                confettiAnimationId = requestAnimationFrame(render);
+            }
+
+            render();
+        }
+
+        function stopConfetti() {
+            if (confettiAnimationId) {
+                cancelAnimationFrame(confettiAnimationId);
+            }
+            const canvas = document.getElementById('confetti-canvas');
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+    </script>
+</body>
+</html>
